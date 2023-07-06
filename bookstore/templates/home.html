@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+{% load static %}
+
+<!-- <div class="col-md-3 text-wrap" style="width: 11rem;"> -->
+<!-- </div> -->
+
+{% include "navbar.html" %}
+<div class="content">
+  <div class="">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for b in books %}
+      <div class="col">
+        <div class="card m-1" style="width: auto;">
+          <img class="card-img-top img-fluid" style="max-height:350px;width:75%;" src="{{b.image}}"
+            alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title text-truncate"><small>{{ b.title }}</small></h6>
+            <p>Giá: {{ b.price|intcomma }}</p>
+            <a href="{% url 'detail' b.id %}" class="btn btn-primary">Chi tiết</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <nav aria-label="Page navigation col-md-9">
+      <ul class="pagination justify-content-center m-5">
+        <li class="page-item">
+          <a class="page-link" href="{% url 'home' %}?page={{pre}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <!-- <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{pre}}">{{pre}}</a></li> -->
+        <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{page}}">{{page}}</a></li>
+        <!-- <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{next}}">{{next}}</a></li> -->
+        <li class="page-item">
+          <a class="page-link" href="{% url 'home' %}?page={{next}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endblock content %}

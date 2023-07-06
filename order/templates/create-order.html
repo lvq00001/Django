@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+<h5 class="card-title">Đơn Hàng</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Sách</th>
+            <th scope="col">Đơn giá</th>
+            <th scope="col">Số lượng</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for c in cart %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{c.book}}</td>
+            <td>{{c.price|intcomma}}</td>
+            <td>{{c.book_quantity}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="d-flex flex-row-reverse">
+    <div class="fs-4 p-2">Tổng: {{total|intcomma}}</div>
+</div>
+<div class="card mb-3">
+    <div class="row g-0">
+        <div>
+            <div class="card-body">
+                <h5 class="card-title">Xác Nhận Thông Tin Giao Hàng</h5>
+                <p class="card-text">
+                <form method="POST">
+                    {% csrf_token %}
+                    <table class="table">
+                        {{ form.as_p }}
+                    </table>
+                    <button type="submit" class="btn btn-danger">
+                        Đặt hàng
+                    </button>
+                </form>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

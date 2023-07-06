@@ -1,0 +1,55 @@
+from django.shortcuts import render
+from cart.models import CartItem
+from order.models import Order, OrderItem
+from book.models import Book
+from cart.models import CartItem
+from .forms import OrderForm
+from django.shortcuts import redirect
+
+
+# Create your views here.
+def order(request):
+    orders = Order.objects.filter(user=request.user)
+    return render(request, "order.html", {"orders": orders})
+
+
+def createOrder(request):
+    checkbox = list(request.GET.keys())
+    print(checkbox)
+    cart = CartItem.objects.filter(id__in=checkbox)
+    total = 0
+    for c in cart:
+        total += int(c.price) * int(c.book_quantity)
+    if request.method == "GET":
+        return render(
+            request,
+            "create-order.html",
+            {"form": OrderForm, "cart": cart, "total": total},
+        )
+    else:
+        try:
+            form = OrderForm(request.POST)
+            newOrder = form.save(commit=False)
+            newOrder.user = request.user
+            newOrder.address = request.POST["address"]
+            newOrder.phone = request.POST["phone"]
+            newOrder.total = total
+            newOrder.save()
+
+            for c in cart:
+                newOrderItem = OrderItem(
+                    order=newOrder,
+                    book=Book.objects.get(title=c.book),
+                    quantity=c.book_quantity,
+                )
+                newOrderItem.save()
+                cartItem = CartItem.objects.get(book=c.book)
+                cartItem.delete()
+
+            return redirect("order")
+        except ValueError:
+            return render(
+                request,
+                "create-order.html",
+                {"form": OrderForm(), "error": "Đã có lỗi vui lòng thử lại."},
+            )

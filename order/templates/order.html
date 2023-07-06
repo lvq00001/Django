@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+<h5 class="card-title">Đơn Hàng Của Bạn</h5>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th scope="col">#</th>
+            <th scope="col">Ngày đặt</th>
+            <th scope="col">Tổng tiền</th>
+            <th scope="col">Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {%for item in orders%}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{item.created_date}}</td>
+            <td>{{item.total|intcomma}}</td>
+            <td>Đã hoàn thành</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

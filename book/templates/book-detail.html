@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card mb-3 p-1">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{book.image}}" class="img-fluid rounded-start" alt="book image" height="300"> 
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{book.title}}</h5>
+        <p class="card-text">Giá: {{book.price}}</p>
+        {% if user.is_authenticated %}
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-primary">
+            Chọn mua
+          </button>
+        </form>
+        
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    
+    <div class="card-body">
+      <p class="card-text fs-5"><u>MÔ TẢ SẢN PHẨM</u></p>
+      <p class="card-text"><em class="text-muted">Tác giả: {{book.author}}</em></p>
+      <p class="">Nội dung: {{book.description}}</p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
