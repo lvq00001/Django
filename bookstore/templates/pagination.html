@@ -1,0 +1,21 @@
+<nav aria-label="Page navigation col-md-9">
+    <ul class="pagination justify-content-center m-5">
+      {% if books.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{books.previous_page_number}}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %}
+
+      <li class="page-item"><a class="page-link" href="">{{page}}/{{total_page}}</a></li>
+      
+      {% if books.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{books.next_page_number}}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>

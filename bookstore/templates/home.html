@@ -2,46 +2,45 @@
 {% block content %}
 {% load humanize %}
 {% load static %}
-
-<!-- <div class="col-md-3 text-wrap" style="width: 11rem;"> -->
-<!-- </div> -->
-
 {% include "navbar.html" %}
-<div class="content">
-  <div class="">
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      {% for b in books %}
-      <div class="col">
-        <div class="card m-1" style="width: auto;">
-          <img class="card-img-top img-fluid" style="max-height:350px;width:75%;" src="{{b.image}}"
-            alt="Card image cap">
-          <div class="card-body">
-            <h6 class="card-title text-truncate"><small>{{ b.title }}</small></h6>
-            <p>Giá: {{ b.price|intcomma }}</p>
-            <a href="{% url 'detail' b.id %}" class="btn btn-primary">Chi tiết</a>
-          </div>
+
+<div id="carouselExampleControls" class="carousel slide mt-2" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for b in slider %}
+    {% with forloop.counter0 as i %}
+    <div class="carousel-item {% if i is 0 %}active{% endif %}">
+      <img src="{{b}}" class="d-block" alt="" style="width:100%">
+    </div>
+    {% endwith %}
+    {% endfor %} 
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="container mt-2 mb-2">
+  <div class="row justify-content-start">
+
+    {% for b in books %}
+    <div class="col-sm-4">
+      <div class="card p-2 border border-2 mb-1" style="width: auto;">
+        <img class="card-img-top img-fluid  mx-auto" style="height:350px;width:75%;" src="{{b.image}}"
+          alt="Card image cap">
+        <div class="card-body">
+          <h6 class="card-title text-truncate"><small>{{ b.title }}</small></h6>
+          <p>Giá: {{ b.price|intcomma }}</p>
+          <a href="{% url 'detail' b.id %}" class="btn btn-primary">Chi tiết</a>
         </div>
       </div>
-      {% endfor %}
     </div>
-
-    <nav aria-label="Page navigation col-md-9">
-      <ul class="pagination justify-content-center m-5">
-        <li class="page-item">
-          <a class="page-link" href="{% url 'home' %}?page={{pre}}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <!-- <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{pre}}">{{pre}}</a></li> -->
-        <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{page}}">{{page}}</a></li>
-        <!-- <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{next}}">{{next}}</a></li> -->
-        <li class="page-item">
-          <a class="page-link" href="{% url 'home' %}?page={{next}}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    {% endfor %} 
   </div>
 </div>
+{% include "pagination.html" %}
 {% endblock content %}

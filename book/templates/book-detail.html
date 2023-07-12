@@ -1,24 +1,35 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block content %}
+{% if success %}
+<div class="alert alert-success d-flex align-items-center" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+  <div>{{ success }}</div>
+  
+</div>
+{% endif %}
+</div>
 <div class="card mb-3 p-1">
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="{{book.image}}" class="img-fluid rounded-start" alt="book image" height="300"> 
+      <img src="{{book.image}}" class="img-fluid rounded-start border border-2" alt="book image" height="300"> 
     </div>
     <div class="col-md-8">
-      <div class="card-body">
+      <div class="card-body ">
         <h5 class="card-title">{{book.title}}</h5>
-        <p class="card-text">Giá: {{book.price}}</p>
+        <p class="card-text"><em class="text-muted">Tác giả: {{book.author}}</em></p>
+        <p class="card-text fs-4 text-danger mt-5">Giá: {{book.price|intcomma}} ₫</p>
         {% if user.is_authenticated %}
-        <form method="POST">
+        <form method="POST"> 
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">
-            Chọn mua
+          <button type="submit" class="btn btn-primary btn-lg">
+            Thêm vào giỏ hàng
           </button>
-        </form>
-        
+        </form> 
         {% endif %}
+        
       </div>
     </div>
   </div>
@@ -26,8 +37,7 @@
     
     <div class="card-body">
       <p class="card-text fs-5"><u>MÔ TẢ SẢN PHẨM</u></p>
-      <p class="card-text"><em class="text-muted">Tác giả: {{book.author}}</em></p>
-      <p class="">Nội dung: {{book.description}}</p>
+      <p class="text-dark">Nội dung: {{book.description}}</p>
     </div>
   </div>
 </div>

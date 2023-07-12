@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .models import CartItem, Book
-from django.shortcuts import get_object_or_404, redirect
-from .forms import CartItemForm
+from .models import CartItem
+from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required
 def cart(request):
     cart = CartItem.objects.filter(user=request.user)
     total = 0
@@ -19,6 +20,7 @@ def cart(request):
 #     return render(request, "book-detail.html", {"book": book, "form": CartItemForm()})
 
 
+@login_required
 def updateCartItem(request, id, action):
     cartItem = CartItem.objects.get(id=id)
     if action == "plus":
@@ -32,6 +34,7 @@ def updateCartItem(request, id, action):
     return redirect("/cart")
 
 
+@login_required
 def deleteCartItem(request, id):
     cartItem = CartItem.objects.get(id=id)
     cartItem.delete()

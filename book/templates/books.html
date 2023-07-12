@@ -2,18 +2,23 @@
     {% block content %}
     {% load humanize %}
     {% include "navbar.html" %}
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="container mt-2 mb-2">
+      <div class="row justify-content-start">
+    
         {% for b in books %}
-          <div class="col">
-            <div class="card m-1" style="width: auto;">
-              <img class="card-img-top" src="{{b.image}}" alt="Card image cap" height="300">
-              <div class="card-body">
-                <h6 class="card-title text-truncate">{{ b.title }}</h6>
-                <p>Giá: {{ b.price|intcomma }}</p>
-                <a href="{% url 'detail' b.id %}" class="btn btn-primary">Chi tiết</a>
-              </div>
+        <div class="col-sm-4">
+          <div class="card p-2 border border-2 mb-1" style="width: auto;">
+            <img class="card-img-top img-fluid  mx-auto" style="height:350px;width:75%;" src="{{b.image}}"
+              alt="Card image cap">
+            <div class="card-body">
+              <h6 class="card-title text-truncate"><small>{{ b.title }}</small></h6>
+              <p>Giá: {{ b.price|intcomma }}</p>
+              <a href="{% url 'detail' b.id %}" class="btn btn-primary">Chi tiết</a>
             </div>
           </div>
-        {% endfor %}
+        </div>
+        {% endfor %} 
+      </div>
     </div>
-    {% endblock content %}
+    {% include "pagination.html" %}
+    {% endblock content %} 
